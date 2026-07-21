@@ -1,5 +1,5 @@
 import type { Route } from "@angular/router";
-import { Planetes } from "./component/planetes/planetes";
+import { Planetes } from "./pages/planetes/planetes";
 
 export const PLANETES_ROUTES: Route[] = [
     {

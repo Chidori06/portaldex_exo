@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { EpisodeCard } from '../episode-card/episode-card';
+import { EpisodeCard } from '../../component/episode-card/episode-card';
 import { Pagination } from '../../../characters/components/pagination/pagination';
 import { EpisodesService } from '../../services/episodes';
 import { ApiResponse, InfoResponse } from '../../../../shared/types/api-response.types';

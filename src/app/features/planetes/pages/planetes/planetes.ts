@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { PlaneteCard } from '../planete-card/planete-card';
+import { PlaneteCard } from '../../component/planete-card/planete-card';
 import { Pagination } from '../../../characters/components/pagination/pagination';
 import { PlanetesService } from '../../services/planetes';
 import { ApiResponse, InfoResponse } from '../../../../shared/types/api-response.types';
