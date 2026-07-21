@@ -33,12 +33,40 @@ export class CharactersService {
     });
   }
 
-  searchCharaByName(page: number, name: string = ""): Observable<ApiResponse<Character[]>> {
-    let params = new HttpParams().set('page', page);
+  // searchCharaByName(page: number, name: string = ""): Observable<ApiResponse<Character[]>> {
+  //   let params = new HttpParams().set('page', page);
 
-    if (name.trim()) {
-      params = params.set('name', name);
+  //   if (name.trim()) {
+  //     params = params.set('name', name);
+  //   }
+
+  //   return this.http
+  //     .get<ApiResponse<Character[]>>(this.url, { params })
+  //     .pipe(
+  //       tap(response => this.characters.set(response.results))
+  //     );
+  // }
+
+  //Filtrer tous ce qu'on veut.
+  searchCharactersByFilters(
+    page = 1,
+    filters: {
+      name?: string;
+      status?: string;
+      species?: string;
+      gender?: string;
     }
+  ): Observable<ApiResponse<Character[]>> {
+
+    let params = new HttpParams()
+      .set('page', page);
+
+    //permet de ne pas écrire plusieurs if
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value) {
+        params = params.set(key, value);
+      }
+    });
 
     return this.http
       .get<ApiResponse<Character[]>>(this.url, { params })
@@ -46,5 +74,6 @@ export class CharactersService {
         tap(response => this.characters.set(response.results))
       );
   }
+
 }
 

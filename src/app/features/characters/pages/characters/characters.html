@@ -25,8 +25,50 @@
       <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-300">
         Découvrez les personnages et créatures rencontrées au cours des voyages interdimensionnels.
       </p>
-      <input type="text" placeholder="Rechercher un personnage" [formControl]="searchControl"
-        class="rounded-full bg-gradient-to-r from-green-300 via-cyan-300 to-green-400 p-5 m-5 font-black focus:border-green-600 focus:outline-none" />
+
+      <form [formGroup]="filters">
+
+        <!--Recherche nom-->
+        <input type="text" placeholder="Rechercher un personnage" formControlName="name"
+          class="rounded-full bg-gradient-to-r from-green-300 via-cyan-300 to-green-400 p-5 m-5 font-black border-2 border-transparent focus:border-green-600 focus:outline-none">
+
+        <!--Statuts-->
+        <select formControlName="status" class="rounded-full
+           bg-gradient-to-r from-green-300 via-cyan-300 to-green-400 px-5 py-3 m-5
+           font-black text-gray-800 border-2 border-transparent focus:border-green-600 focus:outline-none">
+          <option value="">Tous les statuts</option>
+          <option value="alive">Alive</option>
+          <option value="dead">Dead</option>
+          <option value="unknown">Unknown</option>
+        </select>
+
+        <!-- Espèce -->
+        <select formControlName="species"
+          class="rounded-full bg-gradient-to-r from-green-300 via-cyan-300 to-green-400 px-5 py-3 m-5 font-black text-gray-800 border-2 border-transparent focus:border-green-600 focus:outline-none">
+
+          <option value="">Toutes les espèces</option>
+          <option value="Human">Humain</option>
+          <option value="Alien">Alien</option>
+          <option value="Animal">Animal</option>
+          <option value="Robot">Robot</option>
+          <option value="Humanoid">Humanoïde</option>
+
+        </select>
+
+
+        <!-- Genre -->
+        <select formControlName="gender"
+          class="rounded-full bg-gradient-to-r from-green-300 via-cyan-300 to-green-400 px-5 py-3 m-5 font-black text-gray-800 border-2 border-transparent focus:border-green-600 focus:outline-none">
+
+          <option value="">Tous les genres</option>
+          <option value="female">Féminin</option>
+          <option value="male">Masculin</option>
+          <option value="genderless">Sans genre</option>
+          <option value="unknown">Inconnu</option>
+
+        </select>
+
+      </form>
     </div>
 
 

@@ -4,7 +4,7 @@ import { CharacterCard } from '../../components/character-card/character-card';
 import { CharactersService } from '../../services/characters';
 import { ApiResponse, InfoResponse } from '../../../../shared/types/api-response.types';
 import { Pagination } from '../../components/pagination/pagination';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
@@ -20,7 +20,12 @@ export class Characters implements OnInit {
   currentPage = signal(1);
   totalPage = signal(0);
   searchControl = new FormControl('', { nonNullable: true });
-
+  filters = new FormGroup({
+    name: new FormControl('', { nonNullable: true }),
+    status: new FormControl('', { nonNullable: true }),
+    species: new FormControl('', { nonNullable: true }),
+    gender: new FormControl('', { nonNullable: true }),
+  });
 
   ngOnInit() {
     // Method 1 : Do everything in the service
@@ -28,18 +33,43 @@ export class Characters implements OnInit {
     // Method 2 : Get needed value in the component directly
     this.loadCharacters();
 
-    this.searchControl.valueChanges
+    //Ancien appel pour chercher par nom
+    // this.searchControl.valueChanges
+    //   .pipe(
+    //     debounceTime(300),
+    //     distinctUntilChanged()
+    //   )
+    //   .subscribe(name => {
+    //     this.characterService
+    //       .searchCharaByName(1, name)
+    //       .subscribe(response => {
+    //         this.infos.set(response.info);
+    //         this.totalPage.set(response.info.pages);
+    //       });
+    //   });
+
+    //Nouveau groupe pour recherche
+    this.characterService
+      .searchCharactersByFilters(1, {})
+      .subscribe();
+
+
+    this.filters.valueChanges
       .pipe(
         debounceTime(300),
         distinctUntilChanged()
       )
-      .subscribe(name => {
+      .subscribe(filters => {
+
         this.characterService
-          .searchCharaByName(1, name)
-          .subscribe(response => {
-            this.infos.set(response.info);
-            this.totalPage.set(response.info.pages);
-          });
+          .searchCharactersByFilters(1, {
+            name: filters.name,
+            status: filters.status,
+            species: filters.species,
+            gender: filters.gender
+          })
+          .subscribe();
+
       });
   }
 
@@ -58,5 +88,17 @@ export class Characters implements OnInit {
     this.currentPage.set(page);
     this.characterService.getCharactersFromService(page).subscribe();
   }
+
+  //Ancienne méthode de recherche par nom
+  // searchCharacters(page = 1) {
+  //   this.currentPage.set(page);
+
+  //   this.characterService
+  //     .searchCharaByName(page, this.search)
+  //     .subscribe(response => {
+  //       this.infos.set(response.info);
+  //       this.totalPage.set(response.info.pages);
+  //     });
+  // }
 
 }
