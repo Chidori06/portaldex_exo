@@ -27,18 +27,26 @@
         <!-- Infos -->
 
         <div class="mt-6 space-y-4">
-
+            <h3 class="mt-4 font-bold text-cyan-300">
+                Résidents :
+            </h3>
             <div class="flex items-center justify-between">
-                <span class="text-slate-400">
-                    Résidents
-                </span>
+
+                @if (residents().length > 0) {
+
                 <ul>
-                    @for(pla of planete().residents; track pla) {
-                    <li class="font-semibold text-cyan-300">
-                        {{ pla }}
+                    @for (resident of residents(); track resident.id) {
+                    <li>
+                        {{ resident.name }}
                     </li>
                     }
                 </ul>
+
+                } @else {
+
+                <p>Aucun résident connu</p>
+
+                }
             </div>
 
         </div>

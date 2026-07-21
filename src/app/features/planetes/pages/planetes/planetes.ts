@@ -4,6 +4,7 @@ import { Pagination } from '../../../characters/components/pagination/pagination
 import { PlanetesService } from '../../services/planetes';
 import { ApiResponse, InfoResponse } from '../../../../shared/types/api-response.types';
 import { Planete } from '../../types/planete.type';
+import { Character } from '../../../characters/types/character.type';
 
 @Component({
   selector: 'app-planetes',
@@ -17,6 +18,7 @@ export class Planetes {
   readonly infos = signal<InfoResponse>({} as InfoResponse);
   currentPage = signal(1);
   totalPage = signal(0);
+  residents = signal<Character[]>([]);
 
   ngOnInit() {
     // Method 1 : Do everything in the service

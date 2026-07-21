@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Planete } from '../types/planete.type';
 import { Observable, tap } from 'rxjs';
 import { ApiResponse, InfoResponse } from '../../../shared/types/api-response.types';
+import { Character } from '../../characters/types/character.type';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +27,27 @@ export class PlanetesService {
     });
 
   }
+
+  //Avoir la vraie liste des résidents
+  getResidents(planete: Planete): Observable<Character[]> {
+
+    const ids = planete.residents
+      .map(residentUrl => residentUrl.split('/').pop())
+      .filter(id => id)
+      .join(',');
+
+    // Si la planète n'a aucun résident
+    if (!ids) {
+      return new Observable(observer => {
+        observer.next([]);
+        observer.complete();
+      });
+    }
+
+    return this.http.get<Character[]>(
+      `https://rickandmortyapi.com/api/character/${ids}`
+    );
+  }
 }
+
 
