@@ -13,6 +13,7 @@ export class EpisodesService {
   readonly episodesSignal = this.episodes.asReadonly();
   readonly url = 'https://rickandmortyapi.com/api/episode/';
 
+  //Chercher tous les épisodes
   getEpisodesFromService(page: number = 1): Observable<ApiResponse<Episode[]>> {
     return this.http.get<ApiResponse<Episode[]>>(this.url, {
       params: { page: page },
@@ -20,6 +21,7 @@ export class EpisodesService {
       .pipe(tap((response: ApiResponse<Episode[]>) => this.episodes.set(response.results)));
   }
 
+  //Chercher le "count" des épisodes
   getCount(count: number = 1): Observable<ApiResponse<InfoResponse[]>> {
     return this.http.get<ApiResponse<InfoResponse[]>>(this.url, {
       params: { count: count },

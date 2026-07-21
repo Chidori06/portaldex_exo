@@ -31,12 +31,13 @@ export class PlanetesService {
   //Avoir la vraie liste des résidents
   getResidents(planete: Planete): Observable<Character[]> {
 
+    //On sépare les ids des urls
     const ids = planete.residents
-      .map(residentUrl => residentUrl.split('/').pop())
+      .map(residentsUrl => residentsUrl.split('/').pop())
       .filter(id => id)
       .join(',');
 
-    // Si la planète n'a aucun résident
+    // Si la planète n'a aucun résident, on renvoie un observable vide
     if (!ids) {
       return new Observable(observer => {
         observer.next([]);
@@ -44,9 +45,7 @@ export class PlanetesService {
       });
     }
 
-    return this.http.get<Character[]>(
-      `https://rickandmortyapi.com/api/character/${ids}`
-    );
+    return this.http.get<Character[]>(`https://rickandmortyapi.com/api/character/${ids}`);
   }
 }
 

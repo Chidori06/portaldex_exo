@@ -19,7 +19,8 @@ export class Characters implements OnInit {
   readonly infos = signal<InfoResponse>({} as InfoResponse);
   currentPage = signal(1);
   totalPage = signal(0);
-  searchControl = new FormControl('', { nonNullable: true });
+  //Ancien appel
+  // searchControl = new FormControl('', { nonNullable: true });
   filters = new FormGroup({
     name: new FormControl('', { nonNullable: true }),
     status: new FormControl('', { nonNullable: true }),
@@ -52,8 +53,7 @@ export class Characters implements OnInit {
     this.characterService
       .searchCharactersByFilters(1, {})
       .subscribe();
-
-
+    //Changer la valeur des filtres
     this.filters.valueChanges
       .pipe(
         debounceTime(300),
@@ -69,7 +69,6 @@ export class Characters implements OnInit {
             gender: filters.gender
           })
           .subscribe();
-
       });
   }
 

@@ -33,6 +33,7 @@ export class CharactersService {
     });
   }
 
+  //Ancienne méthode pour recherche par nom
   // searchCharaByName(page: number, name: string = ""): Observable<ApiResponse<Character[]>> {
   //   let params = new HttpParams().set('page', page);
 
@@ -47,7 +48,7 @@ export class CharactersService {
   //     );
   // }
 
-  //Filtrer tous ce qu'on veut.
+  //Filtrer tous ce qu'on veut comme paramètres
   searchCharactersByFilters(
     page = 1,
     filters: {

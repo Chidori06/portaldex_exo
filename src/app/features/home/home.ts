@@ -20,6 +20,8 @@ export class Home implements OnInit {
   private readonly episodeService = inject(EpisodesService);
   readonly episodes = this.episodeService.episodesSignal;
   readonly infos = signal<InfoResponse>({} as InfoResponse);
+
+  //Signaux pour initialiser les paramètres
   currentChara = signal(0);
   currentLoca = signal(0);
   currentEpi = signal(0);
@@ -30,6 +32,7 @@ export class Home implements OnInit {
     this.loadEpi();
   }
 
+  //Méthode pour aller chercher les "count" de chaque élément
   loadChara(count?: number) {
     this.characterService
       .getCount()
