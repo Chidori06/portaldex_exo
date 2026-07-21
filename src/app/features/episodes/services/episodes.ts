@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Episode } from '../types/episode.type';
 import { Observable, tap } from 'rxjs';
-import { ApiResponse } from '../../../shared/types/api-response.types';
+import { ApiResponse, InfoResponse } from '../../../shared/types/api-response.types';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +18,12 @@ export class EpisodesService {
       params: { page: page },
     })
       .pipe(tap((response: ApiResponse<Episode[]>) => this.episodes.set(response.results)));
+  }
+
+  getCount(count: number = 1): Observable<ApiResponse<InfoResponse[]>> {
+    return this.http.get<ApiResponse<InfoResponse[]>>(this.url, {
+      params: { count: count },
+    });
+
   }
 }
