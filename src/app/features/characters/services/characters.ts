@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Character } from '../types/character.type';
 import { ApiResponse, InfoResponse } from '../../../shared/types/api-response.types';
 
@@ -26,9 +26,25 @@ export class CharactersService {
       params: { page: page },
     });
   }
+
   getCount(count: number = 1): Observable<ApiResponse<InfoResponse[]>> {
     return this.http.get<ApiResponse<InfoResponse[]>>(this.url, {
       params: { count: count },
     });
   }
+
+  searchCharaByName(page: number, name: string = ""): Observable<ApiResponse<Character[]>> {
+    let params = new HttpParams().set('page', page);
+
+    if (name.trim()) {
+      params = params.set('name', name);
+    }
+
+    return this.http
+      .get<ApiResponse<Character[]>>(this.url, { params })
+      .pipe(
+        tap(response => this.characters.set(response.results))
+      );
+  }
 }
+

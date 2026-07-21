@@ -4,10 +4,12 @@ import { CharacterCard } from '../../components/character-card/character-card';
 import { CharactersService } from '../../services/characters';
 import { ApiResponse, InfoResponse } from '../../../../shared/types/api-response.types';
 import { Pagination } from '../../components/pagination/pagination';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-characters',
-  imports: [CharacterCard, Pagination],
+  imports: [CharacterCard, Pagination, ReactiveFormsModule],
   templateUrl: './characters.html',
   styleUrl: './characters.css',
 })
@@ -17,12 +19,28 @@ export class Characters implements OnInit {
   readonly infos = signal<InfoResponse>({} as InfoResponse);
   currentPage = signal(1);
   totalPage = signal(0);
+  searchControl = new FormControl('', { nonNullable: true });
+
 
   ngOnInit() {
     // Method 1 : Do everything in the service
     this.characterService.getCharactersFromService().subscribe();
     // Method 2 : Get needed value in the component directly
     this.loadCharacters();
+
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(name => {
+        this.characterService
+          .searchCharaByName(1, name)
+          .subscribe(response => {
+            this.infos.set(response.info);
+            this.totalPage.set(response.info.pages);
+          });
+      });
   }
 
   loadCharacters(page?: number) {
@@ -40,4 +58,5 @@ export class Characters implements OnInit {
     this.currentPage.set(page);
     this.characterService.getCharactersFromService(page).subscribe();
   }
+
 }

@@ -32,11 +32,13 @@
                 <span class="text-slate-400">
                     Résidents
                 </span>
-                @for(pla of planete().residents; track pla) {
-                <span class="font-semibold text-cyan-300">
-                    {{ pla }}
-                </span>
-                }
+                <ul>
+                    @for(pla of planete().residents; track pla) {
+                    <li class="font-semibold text-cyan-300">
+                        {{ pla }}
+                    </li>
+                    }
+                </ul>
             </div>
 
         </div>
