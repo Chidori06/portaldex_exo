@@ -26,4 +26,8 @@ export class CharactersService {
       params: { page: page },
     });
   }
+
+  // getCharacterByName(name: string): Observable<ApiResponse<Character[]>> {
+  //   return this.http.get<ApiResponse<Character[]>>(this.url + '?name=');
+  // }
 }
